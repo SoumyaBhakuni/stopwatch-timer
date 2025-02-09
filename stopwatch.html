@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <title>Stopwatch</title>
+</head>
+<body class="bg-gray-900 flex items-center justify-center h-screen">
+
+    <!-- Stopwatch Container -->
+    <div class="bg-black p-12 rounded-lg shadow-lg flex flex-col items-center space-y-6">
+        <!-- Stopwatch Display -->
+        <div class="text-7xl font-semibold text-lime-400 space-x-4 mb-6">
+            <span id="Hour" class="text-gray-400">00</span>
+            <span class="text-gray-400">:</span>
+            <span id="Minute" class="text-gray-400">00</span>
+            <span class="text-gray-400">:</span>
+            <span id="Second" class="text-gray-400">00</span>
+        </div>
+
+        <!-- Stopwatch Controls -->
+        <div class="flex space-x-4">
+            <button id="start" class="bg-gray-800 text-white px-8 py-4 rounded-md hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400">Start</button>
+            <button id="stop" class="bg-gray-800 text-white px-8 py-4 rounded-md hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400">Stop</button>
+            <button id="reset" class="bg-gray-800 text-white px-8 py-4 rounded-md hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        let m1 = 0;
+        let h1 = 0;
+        let s1 = 0;
+        let clear;
+
+        let hour = document.querySelector("#Hour");
+        let min = document.querySelector("#Minute");
+        let sec = document.querySelector("#Second");
+        let str = document.querySelector("#start");
+        let stp = document.querySelector("#stop");
+        let rst = document.querySelector("#reset");
+
+        // Start Stopwatch
+        let start = () => {
+            if (!clear) {
+                clear = setInterval(() => {
+                    s1++;
+                    if (s1 === 60) {
+                        s1 = 0;
+                        m1++;
+                    }
+                    if (m1 === 60) {
+                        m1 = 0;
+                        h1++;
+                    }
+                    hour.innerText = h1.toString().padStart(2, "0");
+                    min.innerText = m1.toString().padStart(2, "0");
+                    sec.innerText = s1.toString().padStart(2, "0");
+                }, 1000);
+            }
+        }
+
+        // Stop Stopwatch
+        let stop = () => {
+            clearInterval(clear);
+            clear = null;
+        }
+
+        // Reset Stopwatch
+        let reset = () => {
+            stop();
+            h1 = 0;
+            m1 = 0;
+            s1 = 0;
+            hour.innerText = "00";
+            min.innerText = "00";
+            sec.innerText = "00";
+        }
+
+        str.addEventListener("click", start);
+        stp.addEventListener("click", stop);
+        rst.addEventListener("click", reset);
+    </script>
+</body>
+</html>
